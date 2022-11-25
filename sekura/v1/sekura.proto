@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+// Sekura API
+//
+// API description for Sekura services.
+package sekura.v1;
+option go_package = "github.com/sekuradev/sekura/gen/go/sekura/v1";
+
+import "google/api/annotations.proto";
+
+
+
+// API for Agents
+//
+// This API is the one Agents should implement.
+service AgentService {
+  // Allows an Agent to register itself. Will require approval.
+  rpc Register(RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/agent"
+      body: "*"
+    };
+  }
+
+  // Agent endpoint to send user data. Requires the agent to be registered and approved.
+  rpc SetAccess(SetAccessRequest) returns (SetAccessResponse) {
+    option (google.api.http) = {
+      post: "/v1/agent/{agent_id=fubar}/access"
+      body: "*"
+    };
+  }
+}
+
+message RegisterRequest{
+  // Agent internal name
+  string name = 1;
+  // Preshared secret to be authenticated against the server.
+  string preshared_secret = 2;
+}
+
+message RegisterResponse{
+  bool error = 1;
+}
+
+message SetAccessRequest{
+  string agent_id = 1;
+  // List of configured accesses associated to the Agent
+  repeated Access accesses = 2;
+}
+
+message SetAccessResponse {
+  string msg = 1;
+}
+
+
+
+service LoginService {
+    // Login
+    //
+    // {{.MethodDescriptorProto.Name}} is a call with the method(s) {{$first := true}}{{range .Bindings}}{{if $first}}{{$first = false}}{{else}}, {{end}}{{.HTTPMethod}}{{end}} within the "{{.Service.Name}}" service.
+    // It takes in "{{.RequestType.Name}}" and returns a "{{.ResponseType.Name}}".
+    //
+    // {{import "tables.md"}}
+    rpc Login (LoginRequest) returns (LoginResponse) {
+        option (google.api.http) = {
+            post: "/v1/example/login"
+            body: "*"
+        };
+    }
+}
+
+message LoginRequest {
+    // The entered username
+    string username = 1;
+    // The entered password
+    string password = 2;
+}
+
+message LoginResponse{
+    // Whether you have access or not
+    bool access = 1;
+}
+
+service UIService {
+  // List all available agents
+  rpc ListAgents (ListAgentsRequest) returns (ListAgentsResponse) {
+    option (google.api.http) = {
+      get: "/v1/agent"
+    };
+  }
+  // Set agent status to Approved or Revoked
+  rpc SetAgent(SetAgentRequest) returns(SetAgentResponse) {
+    option (google.api.http) = {
+      put: "/v1/agent/{id=agent}"
+    };
+  }
+
+  // Retrieve the list of employees
+  rpc ListEmployees(ListEmployeesRequest) returns (ListEmployeesResponse) {
+    option (google.api.http) = {
+      get: "/v1/employees"
+    };
+  }
+
+  // Retrieve the list of Accesses for a given Agent
+  rpc ListAccess(ListAccessRequest) returns (ListAccessResponse) {
+    option (google.api.http) = {
+      get: "/v1/agent/{id=agentid}/access"
+    };
+  }
+}
+
+message ListAgentsRequest{
+}
+
+message ListAgentsResponse{
+  repeated Agent agents = 1;
+}
+
+message SetAgentRequest{
+  string id = 1;
+  string status = 3;
+}
+
+message SetAgentResponse{
+  string msg = 1;
+}
+
+message ListEmployeesRequest{
+}
+
+message ListEmployeesResponse{
+  repeated Employee employees = 1;
+}
+
+message ListAccessRequest{
+  // Agent id to ask for
+  string id = 1;
+}
+
+message ListAccessResponse{
+  repeated AccessUsage accesses = 1;
+}
+
+
+// Shared objects
+
+message Access{
+  string id = 1;
+  string internal_id = 2;
+  map<string, string> properties = 3;
+}
+
+message Agent{
+  string id = 1;
+  string name = 2;
+  string status = 3;
+}
+
+message Employee {
+  // Employee internal identifier
+  string id = 1;
+  // Employee label
+  string name = 2;
+  // Employee current status
+  string status = 3;
+}
+
+message AccessUsage {
+  // Access object
+  Access access = 1;
+  // Related Employee object
+  Employee employee = 2;
+}
