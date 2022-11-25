@@ -4,7 +4,7 @@ syntax = "proto3";
 //
 // API description for Sekura services.
 package sekura.v1;
-option go_package = "github.com/sekuradev/sekura/gen/go/sekura/v1";
+option go_package = "github.com/sekuradev/api/gateway/pkg/sekura/v1";
 
 import "google/api/annotations.proto";
 
