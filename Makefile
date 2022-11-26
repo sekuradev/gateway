@@ -1,4 +1,5 @@
 BUF?=buf
+PLANTUML?=plantuml
 
 all: gen/python/sekura_grpc.py
 
@@ -25,4 +26,7 @@ documentation: doc/index.html doc/schemas.plantuml doc/schemas.png
 
 .PHONY: watch-doc
 watch-doc:
-	iwatch -c "BUF=~/.local/bin/buf make documentation" -e close_write -t "sekura.proto" sekura/v1
+	iwatch -c "PLANTUML=~/.local/bin/plantuml BUF=~/.local/bin/buf make documentation" -e close_write -t "sekura.proto" sekura/v1
+
+watch-lint:
+	iwatch -c "~/.local/bin/buf lint" -e close_write -t "sekura.proto" sekura/v1
