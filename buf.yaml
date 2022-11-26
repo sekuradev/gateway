@@ -1,5 +1,5 @@
 version: v1
-name: buf.build/sekuradev/protos
+name: sekuradev/api
 deps:
   - buf.build/googleapis/googleapis
   - buf.build/grpc-ecosystem/grpc-gateway
