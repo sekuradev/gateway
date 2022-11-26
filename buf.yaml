@@ -1,5 +1,5 @@
 version: v1
-name: sekuradev/api
+name: buf.build/magmax/sekura
 deps:
   - buf.build/googleapis/googleapis
   - buf.build/grpc-ecosystem/grpc-gateway
