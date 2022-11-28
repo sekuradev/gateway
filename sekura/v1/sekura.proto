@@ -1,14 +1,32 @@
 syntax = "proto3";
 
-// Sekura API
-//
-// API description for Sekura services.
 package sekura.v1;
+
 option go_package = "github.com/sekuradev/api/gateway/pkg/sekura/v1";
 
 import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 
-
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Sekura API";
+    version: "1.0";
+    description: "API description for Sekura services.";
+    contact: {
+      name: "Miguel Ángel García";
+      url: "https://github.com/sekuradev/api";
+      email: "miguelangel.garcia@gmail.com";
+    };
+    license: {
+      name: "MIT";
+      url: "https://opensource.org/licenses/MIT";
+    };
+  };
+  schemes: HTTPS;
+  consumes: "application/json";
+  produces: "application/json";
+  base_path: "https://example.org";
+};
 
 // API for Agents
 //
