@@ -5,7 +5,7 @@ import (
 	"flag"
 	"net/http"
 
-	sekura "github.com/sekuradev/api/gateway/pkg/api/v1"
+	sekura "github.com/sekuradev/api/gateway/pkg/sekuraapi/v1"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
