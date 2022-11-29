@@ -4,7 +4,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      -
+    name: Check out repository
+        uses: actions/checkout@v3
       - uses: bufbuild/buf-setup-action@v1
       - uses: bufbuild/buf-lint-action@v1
         #      - uses: bufbuild/buf-breaking-action@v1
@@ -12,8 +14,24 @@ jobs:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
       -
+        name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      -
+        name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+      -
+        name: Install python dependencies
+        run: poetry install --no-interaction
+      -
         name: Generate code
-        run: buf generate
+        run: poetry run buf generate
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
