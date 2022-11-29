@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package sekura.v1;
+package sekuraapi.v1;
 
 option go_package = "github.com/sekuradev/api/sekura/pkg/sekuraapi/v1";
 

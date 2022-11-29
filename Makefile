@@ -9,7 +9,7 @@ gen:
 doc:
 	mkdir -p doc
 
-gen/%: api/v1/sekura.proto gen
+gen/%: sekuraapi/v1/sekura.proto gen
 	poetry run $(BUF) generate
 
 doc/index.html: gen/openapiv2/sekura/v1/sekura.swagger.yaml doc
@@ -30,7 +30,7 @@ sekura-gateway:
 
 .PHONY: watch-doc
 watch-doc:
-	iwatch -c "PLANTUML=~/.local/bin/plantuml BUF=~/.local/bin/buf make documentation" -e close_write -t "sekura.proto" api/v1
+	iwatch -c "PLANTUML=~/.local/bin/plantuml BUF=~/.local/bin/buf make documentation" -e close_write -t "sekura.proto" sekuraapi/v1
 
 watch-lint:
-	iwatch -c "~/.local/bin/buf lint" -e close_write -t "sekura.proto" api/v1
+	iwatch -c "~/.local/bin/buf lint" -e close_write -t "sekura.proto" sekuraapi/v1
