@@ -14,7 +14,11 @@ jobs:
         #        with:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main,ref=HEAD~1"
-      - uses: bufbuild/buf-push-action@v1
+      -
+        name: Generate code
+        run: buf generate
+      -
+        uses: bufbuild/buf-push-action@v1
         with:
           buf_token: ${{ secrets.BUF_TOKEN }}
       -

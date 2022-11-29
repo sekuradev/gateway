@@ -12,6 +12,9 @@ jobs:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
       -
+        name: Generate code
+        run: buf generate
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
