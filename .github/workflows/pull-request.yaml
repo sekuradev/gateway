@@ -15,7 +15,7 @@ jobs:
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
       -
         name: Install protobuf
-        run: apt install -y protobuf-compiler
+        run: sudo apt install -y protobuf-compiler
       -
         name: Install python dependencies
         run: pip install grpclib grpcio-tools
