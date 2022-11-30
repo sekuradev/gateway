@@ -21,18 +21,11 @@ jobs:
         with:
           python-version: '3.9'
       -
-        name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
-      -
         name: Install python dependencies
-        run: poetry install --no-interaction
+        run: pip install grpclib grpcio-tools
       -
         name: Generate code
-        run: poetry run buf generate
+        run: buf generate
       -
         uses: bufbuild/buf-push-action@v1
         with:
