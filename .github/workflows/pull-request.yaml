@@ -14,12 +14,6 @@ jobs:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
       -
-        name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      -
         name: Install python dependencies
         run: pip install grpclib grpcio-tools
       -
