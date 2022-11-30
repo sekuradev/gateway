@@ -22,7 +22,7 @@ jobs:
         #    python-version: '3.9'
       -
         name: Install python dependencies
-        run: pip install grpclib grpcio-tools
+        run: pip install grpcio-tools
       -
         name: Generate code
         run: buf generate
