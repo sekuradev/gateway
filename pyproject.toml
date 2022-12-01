@@ -7,8 +7,7 @@ license = "GPLv3"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-grpclib = "^0.4.3"
-grpcio-tools = "^1.51.1"
+betterproto = {extras = ["compiler"], version = "^1.2.5"}
 
 [tool.poetry.dev-dependencies]
 
