@@ -14,11 +14,8 @@ jobs:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
       -
-        name: Install Protoc
-        uses: arduino/setup-protoc@v1
-      -
         name: Install python dependencies
-        run: pip install grpclib grpcio-tools
+        run: pip install "betterproto[compiler]"
       -
         name: Generate code
         run: buf generate
