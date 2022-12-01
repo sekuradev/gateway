@@ -1,12 +1,5 @@
 version: v1
 plugins:
-  - name: python
-    out: gen/python
-
-  - name: python-grpc
-    out: gen/python
-    path: protoc-gen-grpclib_python
-
   - name: grpc-gateway
     out: gateway/pkg/
     opt:

@@ -14,9 +14,6 @@ jobs:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
       -
-        name: Install python dependencies
-        run: pip install "betterproto[compiler]"
-      -
         name: Generate code
         run: buf generate
       -
