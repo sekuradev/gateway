@@ -15,7 +15,11 @@ jobs:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main,ref=HEAD~1"
       -
-        name: Generate code
+        name:  Install dependencies for gateway
+        run: go install
+        working-directory: gateway
+      -
+        name: Generate code for gateway
         run: poetry run buf generate
       -
         uses: bufbuild/buf-push-action@v1
