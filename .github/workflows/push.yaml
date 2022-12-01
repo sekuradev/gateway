@@ -14,6 +14,11 @@ jobs:
         #        with:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main,ref=HEAD~1"
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+        working-directory: gateway
       -
         name:  Install dependencies for gateway
         run: go install
