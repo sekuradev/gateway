@@ -1,33 +1,62 @@
 name: buf-pull-request
 on: pull_request
+env:
+  BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Check out repository
+      - name: Check out repository
         uses: actions/checkout@v3
-      - uses: bufbuild/buf-setup-action@v1
-      - uses: bufbuild/buf-lint-action@v1
-        #      - uses: bufbuild/buf-breaking-action@v1
-        #        with:
-        #          # The 'main' branch of the GitHub repository that defines the module.
-        #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
-        #-
-        #  name: Generate code
-        #  run: buf generate
-        #-
-        #  name: Set up QEMU
-        #  uses: docker/setup-qemu-action@v2
-        #-
-        #  name: Set up Docker Buildx
-        #  uses: docker/setup-buildx-action@v2
-        #-
-        #  name: Build gateway
-        #  uses: docker/build-push-action@v3
-        #  with:
-        #    context: gateway
-        #    target: gateway
+      - name: Setup Buf
+        uses: bufbuild/buf-setup-action@v1
+      - name: Lint schema
+        uses: bufbuild/buf-lint-action@v1
+        with:
+          input: sekuraapi
 
-        #    push: false
-        #    tags: magmax/sekura-gateway:latest
+  check-breaking:
+    name: Detect breaking gRPC changes
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_disabled'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Setup Buf
+        uses: bufbuild/buf-setup-action@v1
+      - uses: bufbuild/buf-breaking-action@v1
+        with:
+          # The 'main' branch of the GitHub repository that defines the module.
+          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
+
+  generate-gateway:
+    name: Generate gateway
+    runs-on: ubuntu-latest
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Buf
+        uses: bufbuild/buf-setup-action@v1
+      - name: Install protoc
+        uses: arduino/setup-protoc@v1
+      - name: Show version
+        run: buf --version
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: go.mod
+        working-directory: gateway
+      - name: Generate output
+        run: buf generate
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build gateway
+        uses: docker/build-push-action@v3
+        with:
+          context: gateway
+          target: gateway
+
+          push: false
+          tags: magmax/sekura-gateway:latest
