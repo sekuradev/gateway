@@ -13,21 +13,21 @@ jobs:
         #        with:
         #          # The 'main' branch of the GitHub repository that defines the module.
         #          against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
-      -
-        name: Generate code
-        run: buf generate
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
-        name: Build gateway
-        uses: docker/build-push-action@v3
-        with:
-          context: gateway
-          target: gateway
+        #-
+        #  name: Generate code
+        #  run: buf generate
+        #-
+        #  name: Set up QEMU
+        #  uses: docker/setup-qemu-action@v2
+        #-
+        #  name: Set up Docker Buildx
+        #  uses: docker/setup-buildx-action@v2
+        #-
+        #  name: Build gateway
+        #  uses: docker/build-push-action@v3
+        #  with:
+        #    context: gateway
+        #    target: gateway
 
-          push: false
-          tags: magmax/sekura-gateway:latest
+        #    push: false
+        #    tags: magmax/sekura-gateway:latest
