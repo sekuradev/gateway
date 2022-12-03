@@ -41,14 +41,13 @@ jobs:
         uses: arduino/setup-protoc@v1
       - name: Show version
         run: buf --version
-      - name: Setup Go
-        uses: actions/setup-go@v3
-        with:
-          go-version-file: go.mod
-        working-directory: gateway
       - name: Generate output
         run: buf generate
 
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: gateway/go.mod
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
