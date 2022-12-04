@@ -13,7 +13,7 @@ jobs:
       - name: Lint schema
         uses: bufbuild/buf-lint-action@v1
         with:
-          input: sekuraapi
+          input: .
 
   check-breaking:
     name: Detect breaking gRPC changes
