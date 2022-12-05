@@ -5,7 +5,7 @@ import (
 	"flag"
 	"net/http"
 
-	sekura "github.com/sekuradev/api/gateway/pkg/sekura/v1"
+	sekura "github.com/sekuradev/api/gateway/pkg/sekuraapi/v1"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
@@ -46,16 +46,9 @@ func UIHandler() http.Handler {
 	return mux
 }
 
-func LoginHandler() http.Handler {
-	ctx, mux, opts := defaultVars()
-	sekura.RegisterLoginServiceHandlerFromEndpoint(ctx, mux, *grpcHost, opts)
-	return mux
-}
-
 func AllHandler() http.Handler {
 	ctx, mux, opts := defaultVars()
 	sekura.RegisterAgentServiceHandlerFromEndpoint(ctx, mux, *grpcHost, opts)
 	sekura.RegisterUIServiceHandlerFromEndpoint(ctx, mux, *grpcHost, opts)
-	sekura.RegisterLoginServiceHandlerFromEndpoint(ctx, mux, *grpcHost, opts)
 	return mux
 }

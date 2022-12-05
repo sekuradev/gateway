@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package sekura.v1;
+package sekuraapi.v1;
 
-option go_package = "github.com/sekuradev/api/gateway/pkg/sekura/v1";
+option go_package = "github.com/sekuradev/api/sekura/pkg/sekuraapi/v1";
 
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
@@ -43,7 +43,7 @@ service AgentService {
   // Agent endpoint to send user data. Requires the agent to be registered and approved.
   rpc SetAccess(SetAccessRequest) returns (SetAccessResponse) {
     option (google.api.http) = {
-      post: "/v1/agent/{agent_id=fubar}/access"
+      post: "/v1/agent/{agent_id=id}/access"
       body: "*"
     };
   }
@@ -57,6 +57,7 @@ message RegisterRequest{
 }
 
 message RegisterResponse{
+  // True if there was any error trying to register.
   bool error = 1;
 }
 
@@ -67,36 +68,10 @@ message SetAccessRequest{
 }
 
 message SetAccessResponse {
-  string msg = 1;
-}
-
-
-
-service LoginService {
-    // Login
-    //
-    // {{.MethodDescriptorProto.Name}} is a call with the method(s) {{$first := true}}{{range .Bindings}}{{if $first}}{{$first = false}}{{else}}, {{end}}{{.HTTPMethod}}{{end}} within the "{{.Service.Name}}" service.
-    // It takes in "{{.RequestType.Name}}" and returns a "{{.ResponseType.Name}}".
-    //
-    // {{import "tables.md"}}
-    rpc Login (LoginRequest) returns (LoginResponse) {
-        option (google.api.http) = {
-            post: "/v1/example/login"
-            body: "*"
-        };
-    }
-}
-
-message LoginRequest {
-    // The entered username
-    string username = 1;
-    // The entered password
-    string password = 2;
-}
-
-message LoginResponse{
-    // Whether you have access or not
-    bool access = 1;
+  // True if there was any error setting new Access configuration.
+  bool error = 1;
+  // Error message
+  string msg = 2;
 }
 
 service UIService {
