@@ -45,7 +45,7 @@ jobs:
         with:
           go-version-file: gateway/go.mod
       - name: Install protoc and other deps
-        run: apt-get install -y protobuf-compiler unzip wget
+        run: sudo apt-get install -y protobuf-compiler unzip wget
       - name: Install protoc-gen-grpc-gateway
         run: |
           wget https://github.com/grpc-ecosystem/grpc-gateway/releases/download/v2.14.0/protoc-gen-grpc-gateway-v2.14.0-linux-x86_64 -O /usr/local/bin/protoc-gen-grpc-gateway
