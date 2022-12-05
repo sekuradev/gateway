@@ -49,11 +49,16 @@ service AgentService {
   }
 }
 
+message PresharedSecret {
+  // Secret string
+  string secret = 1;
+}
+
 message RegisterRequest{
-  // Agent internal name
-  string name = 1;
   // Preshared secret to be authenticated against the server.
-  string preshared_secret = 2;
+  PresharedSecret preshared_secret = 1;
+  // Agent internal name
+  string name = 2;
 }
 
 message RegisterResponse{
@@ -62,9 +67,12 @@ message RegisterResponse{
 }
 
 message SetAccessRequest{
-  string agent_id = 1;
+  // Preshared secret to be authenticated against the server.
+  PresharedSecret preshared_secret = 1;
+  // Agent id to ask for
+  string agent_id = 2;
   // List of configured accesses associated to the Agent
-  repeated Access accesses = 2;
+  repeated Access accesses = 3;
 }
 
 message SetAccessResponse {
@@ -104,14 +112,21 @@ service UIService {
 }
 
 message ListAgentsRequest{
+  // Session token, taken from OIDC server.
+  SessionToken session_token = 1;
 }
 
 message ListAgentsResponse{
+  // List of registered agents
   repeated Agent agents = 1;
 }
 
 message SetAgentRequest{
-  string id = 1;
+  // Session token, taken from OIDC server.
+  SessionToken session_token = 1;
+  // Agent ID to be modified
+  string id = 2;
+  // New status for atent
   string status = 3;
 }
 
@@ -120,6 +135,8 @@ message SetAgentResponse{
 }
 
 message ListEmployeesRequest{
+  // Session token, taken from OIDC server.
+  SessionToken session_token = 1;
 }
 
 message ListEmployeesResponse{
@@ -127,16 +144,23 @@ message ListEmployeesResponse{
 }
 
 message ListAccessRequest{
+  // Session token, taken from OIDC server.
+  SessionToken session_token = 1;
   // Agent id to ask for
-  string id = 1;
+  string id = 2;
 }
 
 message ListAccessResponse{
+  // List of usages for requested Agent
   repeated AccessUsage accesses = 1;
 }
 
 
 // Shared objects
+
+message SessionToken {
+    string token = 1;
+}
 
 message Access{
   string id = 1;
