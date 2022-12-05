@@ -72,5 +72,5 @@ jobs:
           context: gateway
           target: gateway
 
-          push: github.event_name == "push"
+          push: false
           tags: magmax/sekura-gateway:latest
