@@ -68,10 +68,8 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build gateway
         uses: docker/build-push-action@v3
-        if: github.event_name == 'pull_request'
         with:
           context: gateway
           target: gateway
-
           push: ${{ github.event_name == 'push' }}
           tags: magmax/sekura-gateway:latest
