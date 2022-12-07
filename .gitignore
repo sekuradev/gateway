@@ -1,5 +1,8 @@
 gen/*
+generate/*
 doc/*
+gateway/build/*
+
 sekura.pb.go
 sekura.pb.gw.go
 sekura_grpc.pb.go

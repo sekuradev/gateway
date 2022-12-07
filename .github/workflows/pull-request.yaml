@@ -6,6 +6,7 @@ on:
       - main
 env:
   BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -32,11 +33,16 @@ jobs:
         with:
           # The 'main' branch of the GitHub repository that defines the module.
           against: "https://github.com/${GITHUB_REPOSITORY}.git#branch=main"
-
   generate-gateway:
     name: Generate gateway
     runs-on: ubuntu-latest
     needs: lint
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -62,6 +68,19 @@ jobs:
       - name: Generate
         run: buf generate
 
+      - name: Generate Documentation
+        uses: openapi-generators/openapitools-generator-action@v1
+        with:
+          generator: html2
+          config-file: gen/openapiv2/sekuraapi/v1/sekura.swagger.yaml
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v2
+      - name: Upload documentation
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./html2-client
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         if: github.event_name == 'push'
@@ -76,3 +95,16 @@ jobs:
           target: gateway
           push: ${{ github.event_name == 'push' }}
           tags: magmax/sekura-gateway:latest
+
+  deploy-pages:
+    name: Deploy github-pages
+    runs-on: ubuntu-latest
+    needs: generate-gateway
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+        if: github.event_name == 'push'
