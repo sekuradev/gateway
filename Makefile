@@ -12,8 +12,8 @@ doc:
 gen/%: sekuraapi/v1/sekura.proto gen
 	poetry run $(BUF) generate
 
-doc/index.html: gen/openapiv2/sekura/v1/sekura.swagger.yaml doc
-	docker run --rm -w /local -v ${PWD}:/local openapitools/openapi-generator-cli generate -i /local/$< -g html -o /local/doc
+doc/index.html: gen/openapiv2/sekuraapi/v1/sekura.swagger.yaml doc
+	docker run --rm -w /local -v ${PWD}:/local openapitools/openapi-generator-cli generate -i /local/$< -g html2 -o /local/doc
 
 doc/schemas.plantuml: gen/openapiv2/sekura/v1/sekura.swagger.yaml doc
 	docker run --rm -w /local -v ${PWD}:/local openapitools/openapi-generator-cli generate -i /local/$< -g plantuml -o /local/doc
