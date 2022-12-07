@@ -72,7 +72,7 @@ jobs:
         uses: openapi-generators/openapitools-generator-action@v1
         with:
           generator: html2
-          config-file: gen/openapiv2/sekuraapi/v1/sekura.swagger.yaml
+          openapi-file: gen/openapiv2/sekuraapi/v1/sekura.swagger.yaml
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v2
