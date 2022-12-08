@@ -51,7 +51,7 @@ service AgentService {
 
 message PresharedSecret {
   // Secret string
-  string secret = 1;
+  bytes secret = 1;
 }
 
 message RegisterRequest{
@@ -159,7 +159,7 @@ message ListAccessResponse{
 // Shared objects
 
 message SessionToken {
-    string token = 1;
+    bytes token = 1;
 }
 
 message Access{
