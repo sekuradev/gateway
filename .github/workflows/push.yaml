@@ -64,19 +64,33 @@ jobs:
       - name: Generate
         run: buf generate
 
-      - name: Generate Documentation
+      - name: Generate Documentation HTML
+        uses: openapi-generators/openapitools-generator-action@v1
+        with:
+          generator: html
+          openapi-file: gen/openapiv2/sekuraapi/v1/sekura.swagger.yaml
+
+      - name: Generate Documentation HTML2
         uses: openapi-generators/openapitools-generator-action@v1
         with:
           generator: html2
           openapi-file: gen/openapiv2/sekuraapi/v1/sekura.swagger.yaml
 
+      - name: Prepare pages
+        run: |
+          mkdir pages
+          cp -r html-client pages/html
+          cp -r html2-client pages/html2
+          cp templates/mainpage/README.md pages
+          cp templates/gomodule/go.mod pages
+          cp -r gateway/pkg/sekuraapi/* pages
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v2
       - name: Upload documentation
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./html2-client
+          path: ./pages
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -89,7 +103,7 @@ jobs:
         with:
           context: gateway
           target: gateway
-          push: ${{ github.event_name == 'push' }}
+          push: true
           tags: magmax/sekura-gateway:latest
 
   deploy-pages:
