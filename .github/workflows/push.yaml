@@ -81,7 +81,7 @@ jobs:
           mkdir pages
           cp -r html-client pages/html
           cp -r html2-client pages/html2
-          cp templates/mainpage/README.md pages
+          cp templates/mainpage/index.html pages
           cp templates/gomodule/go.mod pages
           cp -r gateway/pkg/sekuraapi/* pages
       - name: Setup Pages
