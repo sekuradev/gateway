@@ -70,9 +70,6 @@ jobs:
         with:
           generator: html2
           openapi-file: gen/openapiv2/sekuraapi/v1/sekura.swagger.yaml
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v2
       - name: Upload documentation
         uses: actions/upload-pages-artifact@v1
         with:
@@ -105,6 +102,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy-pages.outputs.page_url }}
     steps:
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v2
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
