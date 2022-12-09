@@ -23,7 +23,6 @@ jobs:
       - name: Build gateway
         uses: docker/build-push-action@v3
         with:
-          context: gateway
           target: gateway
           push: true
-          tags: magmax/sekura-gateway:latest
+          tags: magmax/sekura-gateway:nighty
